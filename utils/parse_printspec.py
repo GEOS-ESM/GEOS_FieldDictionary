@@ -41,7 +41,7 @@ def get_long_name_map(cvs_file,long_names,exclude_internal):
               item_type = values[5].strip()
 
               if (long_name not in long_names) and (item_type == "esmf_field"):
-                 long_names.update({long_name:{"units":units,"incomplete":True}})
+                 long_names.update({long_name:{"units":units}})
 
               # update list components with long_name
               if (item_type == "esmf_field"):
@@ -85,10 +85,12 @@ def get_component_map(cvs_file):
        for i in range(i_end-2):
            line = cvs_file[i_start+2+i]
            values = line.split(',')
+           short_name = values[1].strip()
+           print(short_name)
            long_name = values[2].strip()
            units = values[3].strip()
            item_type = values[5].strip()
-           comp_map.update({long_name:{"units":units,"item_type":item_type}})
+           comp_map.update({long_name:{"units":units,"item_type":item_type,"short_name":short_name}})
        components.update({comp_name+"_"+state_type:comp_map})
        i_start = i_start + i_end
 
