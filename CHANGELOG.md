@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`docs/verification-workflow.md`**: Scientist-facing quick-start guide for the field verification process, including step-by-step instructions, acceptance criteria, and FAQ.
+- **`utils/priority_fields.py`**: CLI tool to rank unverified fields by the number of components that use them, helping prioritize verification effort. Supports `--top N`, `--status`, `--all-statuses`, and `--format table|markdown` options.
+- **GitHub labels**: Added `unverified`, `verified`, `cf_compliant`, and `priority` labels to the repository for use in issue and PR triage.
+
 ---
 
 ## [0.2.0] - 2026-03-28
