@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [0.2.0] - 2026-03-28
+
 ### Added
 
 - **`long_name`** (required): Human-readable field description used as the NetCDF `long_name` attribute by MAPL. During migration, values are auto-generated from the standard name (underscores replaced with spaces, title-cased). Scientists should replace auto-generated values with accurate descriptions as part of the verification workflow.
