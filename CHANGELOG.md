@@ -9,24 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-### Changed
-
-### Fixed
-
-### Removed
-
-### Deprecated
-
----
-
-## [0.2.0] - 2026-03-28
-
-### Overview
-
-Schema v0.2.0 introduces new required and optional fields to support MAPL3 integration. All existing entries are migrated with auto-generated values for the new required fields. See [`docs/schema-rfc-v0.2.0.md`](docs/schema-rfc-v0.2.0.md) for full design rationale and team discussion notes.
-
-### Added
-
 - **`long_name`** (required): Human-readable field description used as the NetCDF `long_name` attribute by MAPL. During migration, values are auto-generated from the standard name (underscores replaced with spaces, title-cased). Scientists should replace auto-generated values with accurate descriptions as part of the verification workflow.
 
 - **`conserved`** (required, default `false`): Boolean flag indicating whether the field is a conserved quantity. When `true`, MAPL selects a conservative regridding method by default. Set to `true` during migration for 149 entries matched by name (mass fractions, mixing ratios, specific humidity) or unit (`kg kg-1`).
@@ -52,6 +34,10 @@ Schema v0.2.0 introduces new required and optional fields to support MAPL3 integ
 
 - `.github/workflows/validate-schema.yml`: CI workflow that runs `utils/validate_schema.py --strict` on every pull request touching the dictionary or validator, preventing schema-invalid entries from being merged.
 
+- `CONTRIBUTING.md`: Field verification workflow guide for domain scientists.
+
+- `.github/ISSUE_TEMPLATE/field-verification.md`: Issue template for per-field verification tracking.
+
 ### Changed
 
 - **`short_names` → `aliases`**: The `short_names` list field has been renamed to `aliases` for consistency with CF Conventions and NUOPC terminology. Existing values are preserved; only the key name changes.
@@ -59,6 +45,8 @@ Schema v0.2.0 introduces new required and optional fields to support MAPL3 integ
 - **`units` → `canonical_units`**: The `units` field has been renamed to `canonical_units` to make explicit that this is the authoritative reference unit for the field. Individual GEOS components may use different internal units, but the dictionary always records the canonical form.
 
 - **`components`** is now optional: Previously implied as required; now explicitly documented as optional. Existing values are preserved. New entries do not need to populate this field.
+
+- **`geos_field_dictionary.yaml`**: All 2,359 entries migrated to v0.2.0 format (43 `cf_compliant`, 149 `conserved: true`, 1,798 with `physical_dimension` inferred).
 
 ### Removed
 
