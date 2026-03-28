@@ -254,9 +254,13 @@ def validate_entry(name: str, entry: dict) -> list:
     return errors
 
 
-def validate_file(path: str) -> int:
+def validate_file(path: str, strict: bool = False) -> int:
     """
     Validate the field dictionary YAML file at *path*.
+
+    In non-strict mode (default), a v0.1.x flat-format dictionary prints a
+    warning but exits 0 — it is not yet expected to conform to v0.2.0.
+    Pass strict=True to require the v0.2.0 wrapper and full entry validation.
 
     Returns the number of errors found (0 = valid).
     """
@@ -331,14 +335,20 @@ def validate_file(path: str) -> int:
                 all_errors.extend(validate_entry(str(name), entry))
 
     else:
-        # Possibly v0.1.x flat format — validate what we can but warn
+        # Possibly v0.1.x flat format
         print(
             "WARNING: File does not have a 'field_dictionary' top-level key. "
             "This appears to be a v0.1.x format dictionary.\n"
-            "         Run utils/migrate_to_v0.2.0.py to upgrade to v0.2.0.\n",
+            "         Run utils/migrate_to_v0.2.0.py to upgrade to v0.2.0.",
             file=sys.stderr,
         )
-        # Still validate entries against the v0.2.0 rules so users know what is missing
+        if not strict:
+            # Non-strict mode: warn but pass. Migration has not happened yet.
+            print(
+                "OK: Skipping v0.2.0 entry validation for pre-migration dictionary (use --strict to enforce)."
+            )
+            return 0
+        # Strict mode: validate all entries against v0.2.0 rules
         if isinstance(data, dict):
             for name, entry in data.items():
                 all_errors.extend(validate_entry(str(name), entry))
@@ -389,7 +399,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    n_errors = validate_file(args.file)
+    n_errors = validate_file(args.file, strict=args.strict)
     sys.exit(0 if n_errors == 0 else 1)
 
 
