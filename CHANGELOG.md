@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [0.2.1] - 2026-03-28
+
 ### Added
 
 - **`docs/verification-workflow.md`**: Scientist-facing quick-start guide for the field verification process, including step-by-step instructions, acceptance criteria, and FAQ.
