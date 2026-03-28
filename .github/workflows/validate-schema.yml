@@ -1,0 +1,22 @@
+---
+
+name: Validate Schema
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'geos_field_dictionary.yaml'
+      - 'utils/validate_schema.py'
+
+jobs:
+  validate-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Run schema validator
+        run: uv run utils/validate_schema.py geos_field_dictionary.yaml
